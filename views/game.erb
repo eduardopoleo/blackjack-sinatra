@@ -1,0 +1,53 @@
+
+<%if session[:round_over?]%>
+	
+	<% if session[:player_won?]== false%>
+		<strong><p>You lost and currently have: $<%=session[:money]%> </p></strong>
+	<% else %>
+		<strong><p>You won and currently have: $<%=session[:money]%> </p></strong>
+	<% end %>
+	
+	<p>Would you like to play again?</p>
+
+	<form action="/bet" method = "get">
+		<input type="submit" value = "Yes" class = "btn">
+	</form>
+	<form action="/game_finished" method = "get">
+		<input type="submit" value = "No" class = "btn">
+	</form>
+<% end %>
+
+<div>
+	<%session[:dealer_hand_to_display].each do |card|%>
+		<img src= <%=card%> >
+	<%end%>
+</div>
+
+<% if session[:dealer_plays?] %>
+	<h3><%= session[:dealer_score] %></h3>
+<% end %>
+
+<% if session[:dealer_score] < 17 && session[:dealer_plays?] %>
+	<form action="dealer_plays" method ="post">
+		<input type="submit" value = "Show next card for the dealer" class = "btn">
+	</form>
+<% end %>
+
+<div>
+	<% session[:player_hand_to_display].each do |card| %>
+		<img src= <%=card%> >
+	<%end%>
+</div>
+<h3><%= session[:player_score] %></h3>
+
+<strong><p>Hey <%=session[:name]%> you currently have: $<%=session[:money]%> and this is your bet this round: $<%=session[:bet]%></p></strong>
+
+<% unless session[:player_score] >= 21 || session[:dealer_plays?] == true%>
+	<form action="/player_hits" method = "post">
+		<input type="Submit" value ="Hit!" class = "btn">
+	</form>
+
+	<form action="/show_dealer_cards" method = "get">
+		<input type="Submit" value ="Stay" class = "btn">
+	</form>
+<% end %>
