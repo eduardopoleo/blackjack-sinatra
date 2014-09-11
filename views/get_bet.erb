@@ -1,13 +1,10 @@
-<% if session[:bet] > session[:money] %>
-  <p>Argh! You do not have that kind of money! Please input a reasonable amount.</p>
-<%elsif session[:bet] < 0 %>
-  <p>We do no accept negative bets in here!</p>
-<% end %>
 
-<h1><%=@name%> you have: <%=@money%></h1>
-<p>How much do you want to bet?</p>
+<h2><%=session[:name]%> you have: <span class = "money">$<%=session[:money]%></span></h2>
+<h3>How much do you want to bet?</h3>
 
+<div>
 <form action="/get_bet" method = "post">
-  <input type="text" name = "bet">
-  <input type="submit" class = 'btn'>
+  <input type="text" name = "bet" class = "button">
+  <input type="submit" value = "Bet!" class = 'btn btn-success button'>
 </form>
+</div>

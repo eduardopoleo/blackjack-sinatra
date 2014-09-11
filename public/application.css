@@ -1,0 +1,46 @@
+
+body{
+	font-family: helvetica;
+	font-weight: bold;
+	font-size: 16px;
+}
+.money{
+	color:#006600;
+}
+.player-name{
+	margin-top: -3px;
+	font-family: Helvetica;
+	font-size: 20px;
+	letter-spacing: -1px;
+}
+.score{
+	font-family: lobster;
+	font-size: 25px;
+	color: #BA0000;
+	float:right;
+	margin-top:-30px;
+
+}
+.card{
+	margin-right: 10px;
+	border-radius: 5px;
+	-moz-box-shadow:    3px 3px 4px 2px #777;
+  	-webkit-box-shadow: 3px 3px 4px 2px #777;
+  	box-shadow:         3px 3px 4px 2px #777;
+  	border: 1px solid;
+  	border-color: black;
+}
+
+.btn-container{
+	overflow: hidden;
+}
+
+.button{
+	float: left;
+	margin-right: 10px;
+}
+
+#dealer-btn{
+	margin-top: 18px;
+	margin-bottom: -10px;
+}

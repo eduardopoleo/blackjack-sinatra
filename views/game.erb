@@ -1,47 +1,51 @@
+<h1>Blackjack!</h1>
 
-<%if session[:round_over?]%>
-  
-  <p>Would you like to play again?</p>
-
-  <form action="/bet" method = "get">
-    <input type="submit" value = "Yes" class = "btn">
-  </form>
-  <form action="/game_finished" method = "get">
-    <input type="submit" value = "No" class = "btn">
-  </form>
+<%if @error || @success%>
+  <div class="btn-container">
+    <p>Would you like to play again?</p>
+    <form action="/bet" method = "get" class="button">
+      <input type="submit" value = "Yes" class = "btn btn-success">
+    </form>
+    <form action="/game_finished" method = "get" class="button">
+      <input type="submit" value = "No" class = "btn btn-danger">
+    </form>
+  </div>
 <% end %>
 
-<div>
+<div class = 'well'>
+  <h4 class = "player-name">Dealers's hand</h4>
+  <% if session[:dealer_plays?] %>
+    <h4 class="score"><%=session[:dealer_score]%></h4>
+  <% end %> 
+
   <%session[:dealer_hand_to_display].each do |card|%>
-    <img src= <%=card%> >
+    <img src = <%=card%> class = "card" >
   <%end%>
-</div>
 
-<% if session[:dealer_plays?] %>
-  <h3><%= session[:dealer_score] %></h3>
-<% end %>
-
-<% if session[:dealer_score] < 17 && session[:dealer_plays?] %>
-  <form action="dealer_plays" method ="post">
-    <input type="submit" value = "Show next card for the dealer" class = "btn">
+  <% if session[:dealer_score] < 17 && session[:dealer_plays?] %>
+  <form action="dealer_plays" method ="post" id="dealer-btn">
+    <input type="submit" value = "Show next card for the dealer" class = "btn btn-primary">
   </form>
 <% end %>
+</div>
 
-<div>
+<div class = 'well'>
+  <h4 class="player-name"><%=session[:name]%>'s hand</h4>
+  <h4 class="score"><%=session[:player_score]%></h4>
   <% session[:player_hand_to_display].each do |card| %>
-    <img src= <%=card%> >
+    <img src = <%=card%> class = "card">
   <%end%>
 </div>
-<h3><%= session[:player_score] %></h3>
-
-<strong><p>Hey <%=session[:name]%> you currently have: $<%=session[:money]%> and this is your bet this round: $<%=session[:bet]%></p></strong>
 
 <% unless session[:player_score] >= 21 || session[:dealer_plays?] == true%>
-  <form action="/player_hits" method = "post">
-    <input type="Submit" value ="Hit!" class = "btn">
+<strong><p>Money: $<%=session[:money]%>, Current bet: $<%=session[:bet]%></p></strong>
+<div class = "btn-container">
+  <form action="/player_hits" method = "post" class="button">
+    <input type="Submit" value ="Hit!" class = "btn btn-danger">
   </form>
 
-  <form action="/show_dealer_cards" method = "get">
-    <input type="Submit" value ="Stay" class = "btn">
+  <form action="/show_dealer_cards" method = "get" class="button">
+    <input type="Submit" value ="Stay" class = "btn btn-warning" >
   </form>
+</div>
 <% end %>
