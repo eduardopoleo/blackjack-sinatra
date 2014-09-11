@@ -1,12 +1,6 @@
 
 <%if session[:round_over?]%>
   
-  <% if session[:player_won?]== false%>
-    <strong><p>You lost and currently have: $<%=session[:money]%> </p></strong>
-  <% else %>
-    <strong><p>You won and currently have: $<%=session[:money]%> </p></strong>
-  <% end %>
-  
   <p>Would you like to play again?</p>
 
   <form action="/bet" method = "get">

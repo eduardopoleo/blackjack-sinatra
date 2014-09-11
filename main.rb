@@ -102,7 +102,6 @@ get '/game' do
   session[:dealer_hand] = []
   session[:round_over?] = false
   session[:dealer_plays?] = false
-  session[:player_won?] = false
 
   2.times{session[:player_hand] << session[:deck].pop}
   2.times{session[:dealer_hand] << session[:deck].pop}
@@ -118,6 +117,7 @@ get '/game' do
     session[:round_over?] = true
     session[:player_won?] = true
     session[:money] += session[:bet]*1.5
+    @success = "You hit blackjack! Your money available is #{session[:money]}"
   end
 
   erb :game
@@ -132,6 +132,7 @@ post "/player_hits" do
   if session[:player_score] > 21
     session[:round_over?] = true
     session[:money] -= session[:bet]
+    @error = "You busted! Your money available is #{session[:money]}"
   end
 
   if session[:player_score] == 21
@@ -150,9 +151,10 @@ get "/show_dealer_cards" do
 
     if session[:dealer_score] >= session[:player_score]
       session[:money] -= session[:bet]
+      @error = "The dealer has a higher or equal score than you. You lost. Your money is #{session[:money]} "
     else
       session[:money] += session[:bet]
-      session[:player_won] = true
+      @success = "You beat the dealer! Your money is #{session[:money]}"
     end
   end
   erb :game
@@ -166,15 +168,16 @@ post "/dealer_plays" do
   session[:dealer_score] = calculate_score(session[:dealer_hand])
   if session[:dealer_score] > 21
     session[:round_over?] = true
-    session[:player_won?] = true
     session[:money] += session[:bet]
+    @success = "The dealer busted! You won. Your money: #{session[:money]}"
   elsif session[:dealer_score] >= session[:player_score]
     session[:round_over?] = true
     session[:money] -= session[:bet]
+    @error = "The dealer has a higher or equal score than you. You lost. Your money is #{session[:money]} "
   elsif session[:dealer_score] >= 17 && session[:dealer_score] < session[:player_score]
     session[:round_over?] = true
-    session[:player_won?] = true
     session[:money] += session[:bet]
+    @success = "You beat the dealer! Your money is #{session[:money]}"
   end
 
   erb :game
