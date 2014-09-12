@@ -62,6 +62,10 @@ end
 
 post '/get_name' do
   session[:name] = params[:name]
+  if session[:name].length < 2
+    @error = "Please enter a longer name!"
+    halt erb :get_name
+  end
   redirect '/bet'
 end
 
