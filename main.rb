@@ -2,7 +2,9 @@ require 'rubygems'
 require 'sinatra'
 require 'pry'
 
-set :sessions, true
+use Rack::Session::Cookie, :key => 'rack.session',
+:path => '/',
+:secret => 'your_secret'
 # I can use this helpers methods even in the views
 # Instance variables e.g @error are statless as opposed to the session
 # This is what allows him to display the message he wants because they
