@@ -1,15 +1,15 @@
 <div id='game'>
   
-<%if @error %>
-  <div class="alert alert-error"><%=@error%></div>
+<%if @looser %>
+  <div class="alert alert-error"><%=@looser%></div>
 <% end %>
-<%if @success %>
-  <div class="alert alert-success"><%=@success%></div>
+<%if @winner %>
+  <div class="alert alert-success"><%=@winner%></div>
 <% end %>
 
 <h1>Blackjack!</h1>
 
-<%if @error || @success%>
+<%if @winner || @looser%>
   <div class="btn-container">
     <p>Would you like to play again?</p>
     <form action="/bet" method = "get" class="button">

@@ -124,7 +124,7 @@ get '/game' do
     session[:round_over?] = true
     session[:player_won?] = true
     session[:money] += session[:bet]*1.5.floor
-    @success = "You hit blackjack! Your money available is #{session[:money]}."
+    @winner = "You hit blackjack! Your money available is #{session[:money]}."
   end
 
   erb :game
@@ -139,7 +139,7 @@ post "/player_hits" do
   if session[:player_score] > 21
     session[:round_over?] = true
     session[:money] -= session[:bet]
-    @error = "You busted with #{session[:player_score]}! Your money available is $#{session[:money]}." 
+    @looser = "You busted with #{session[:player_score]}! Your money available is $#{session[:money]}." 
   end
 
   if session[:player_score] == 21
@@ -156,10 +156,10 @@ post "/show_dealer_cards" do
   if session[:dealer_score] >= 17
     if session[:dealer_score] >= session[:player_score]
       session[:money] -= session[:bet]
-      @error = "The dealer stayed with #{session[:dealer_score]} and you with #{session[:player_score]}. You lost. Your current balance is $#{session[:money]}."
+      @looser = "The dealer stayed with #{session[:dealer_score]} and you with #{session[:player_score]}. You lost. Your current balance is $#{session[:money]}."
     else
       session[:money] += session[:bet]
-      @success = "You beat the dealer! You stayed at #{session[:player_score]} and she stayed at #{session[:dealer_score]}. Your balance is $#{session[:money]}."
+      @winner = "You beat the dealer! You stayed at #{session[:player_score]} and she stayed at #{session[:dealer_score]}. Your balance is $#{session[:money]}."
     end
   end
   erb :game, layout: false
@@ -173,13 +173,13 @@ post "/dealer_plays" do
   session[:dealer_score] = calculate_score(session[:dealer_hand])
   if session[:dealer_score] > 21
     session[:money] += session[:bet]
-    @success = "The dealer busted with #{session[:dealer_score]}! You won. Your balance is $#{session[:money]}."
+    @winner = "The dealer busted with #{session[:dealer_score]}! You won. Your balance is $#{session[:money]}."
   elsif session[:dealer_score] >= session[:player_score]
     session[:money] -= session[:bet]
-    @error = "The dealer stayed with #{session[:dealer_score]} and you with #{session[:player_score]}. You lost. Your current balance is $#{session[:money]}."
+    @looser = "The dealer stayed with #{session[:dealer_score]} and you with #{session[:player_score]}. You lost. Your current balance is $#{session[:money]}."
   elsif session[:dealer_score] >= 17 && session[:dealer_score] < session[:player_score]
     session[:money] += session[:bet]
-    @success = "You beat the dealer! You stayed at #{session[:player_score]} and she stayed at #{session[:dealer_score]}. Your balance is $#{session[:money]}."
+    @winner = "You beat the dealer! You stayed at #{session[:player_score]} and she stayed at #{session[:dealer_score]}. Your balance is $#{session[:money]}."
   end
 
   erb :game, layout: false
