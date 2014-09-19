@@ -137,23 +137,21 @@ post "/player_hits" do
   if session[:player_score] > 21
     session[:round_over?] = true
     session[:money] -= session[:bet]
-    @error = "You busted with #{session[:player_score]}! Your money available is $#{session[:money]}."
+    @error = "You busted with #{session[:player_score]}! Your money available is $#{session[:money]}." 
   end
 
   if session[:player_score] == 21
     redirect '/show_dealer_cards'
   end
 
-  erb :game
+  erb :game, layout: false
 end
 
-get "/show_dealer_cards" do
+post "/show_dealer_cards" do
   session[:dealer_plays?] = true
   session[:dealer_hand_to_display] = cards_with_proper_name(session[:dealer_hand], false)
   
   if session[:dealer_score] >= 17
-    session[:round_over?] = true
-
     if session[:dealer_score] >= session[:player_score]
       session[:money] -= session[:bet]
       @error = "The dealer stayed with #{session[:dealer_score]} and you with #{session[:player_score]}. You lost. Your current balance is $#{session[:money]}."
@@ -162,7 +160,7 @@ get "/show_dealer_cards" do
       @success = "You beat the dealer! You stayed at #{session[:player_score]} and she stayed at #{session[:dealer_score]}. Your balance is $#{session[:money]}."
     end
   end
-  erb :game
+  erb :game, layout: false
 end
 
 post "/dealer_plays" do 
@@ -182,7 +180,7 @@ post "/dealer_plays" do
     @success = "You beat the dealer! You stayed at #{session[:player_score]} and she stayed at #{session[:dealer_score]}. Your balance is $#{session[:money]}."
   end
 
-  erb :game
+  erb :game, layout: false
 end
 
 get "/game_finished" do

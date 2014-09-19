@@ -1,3 +1,12 @@
+<div id='game'>
+  
+<%if @error %>
+  <div class="alert alert-error"><%=@error%></div>
+<% end %>
+<%if @success %>
+  <div class="alert alert-success"><%=@success%></div>
+<% end %>
+
 <h1>Blackjack!</h1>
 
 <%if @error || @success%>
@@ -13,6 +22,7 @@
 <% end %>
 
 <div class = 'well'>
+
   <h4 class = "player-name">Dealers's hand</h4>
   <% if session[:dealer_plays?] %>
     <h4 class="score"><%=session[:dealer_score]%></h4>
@@ -40,12 +50,14 @@
 <% unless session[:player_score] >= 21 || session[:dealer_plays?] == true%>
   <strong><p>Money: $<%=session[:money]%>, Current bet: $<%=session[:bet]%></p></strong>
   <div class = "btn-container">
-    <form action="/player_hits" method = "post" class="button">
+    <form id="form-hit" action="/player_hits" method = "post" class="button">
       <input type="Submit" value ="Hit!" class = "btn btn-danger">
     </form>
 
-    <form action="/show_dealer_cards" method = "get" class="button">
+    <form id= "form-stay" action="/show_dealer_cards" method = "post" class="button">
       <input type="Submit" value ="Stay" class = "btn btn-warning" >
     </form>
   </div>
-<% end %>
+<% end %> 
+
+</div>
